@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-salesteam",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Salesteam for n8n: add leads to LinkedIn campaigns, stop, pause or tag them, read conversations, and start workflows from signed Salesteam events.",
   "keywords": [
     "n8n-community-node-package",
