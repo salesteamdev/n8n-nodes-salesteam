@@ -1,0 +1,58 @@
+# Publishes n8n-nodes-salesteam to npm with a provenance statement, which n8n
+# requires for verified community nodes (since May 1, 2026). Based on the
+# publish.yml that @n8n/node-cli 0.55 scaffolds.
+#
+# It runs when a version tag like 0.2.0 is pushed. `npm run release` on your
+# computer bumps the version, tags it and pushes, so you never publish by hand.
+#
+# How npm lets it publish:
+# - The first version: a short-lived granular access token saved as the
+#   NPM_TOKEN secret of this repository (npm can't trust a workflow for a
+#   package that doesn't exist yet).
+# - After that: trusted publishing. On npmjs.com, the package's Settings >
+#   Trusted Publisher > GitHub Actions, with this repository's owner and name
+#   and the workflow file name publish.yml. Then delete the NPM_TOKEN secret
+#   and the token: GitHub's OIDC token is used and no secret is stored.
+
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+permissions:
+  id-token: write # lets npm sign the provenance statement and use trusted publishing
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Node 24: the version these steps are tested with. Its npm is 11.5.1 or
+      # later, which trusted publishing needs.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      # No install scripts: nothing here needs them, and n8n-workflow (a peer
+      # dependency, for types) would otherwise compile isolated-vm.
+      - run: npm ci --ignore-scripts
+
+      - name: Test
+        run: |
+          npm run build
+          npm test
+
+      # In GitHub Actions, `n8n-node release` lints, builds and runs
+      # `npm publish` with provenance (@n8n/node-cli 0.23.0 or later).
+      - name: Release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          [ -n "$NPM_TOKEN" ] && npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+          npm run release

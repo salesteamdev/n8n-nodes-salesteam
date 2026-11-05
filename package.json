@@ -1,0 +1,60 @@
+{
+  "name": "n8n-nodes-salesteam",
+  "version": "0.1.0",
+  "description": "Salesteam for n8n: add leads to LinkedIn campaigns, stop, pause or tag them, read conversations, and start workflows from signed Salesteam events.",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "salesteam",
+    "linkedin",
+    "outreach",
+    "sales"
+  ],
+  "license": "MIT",
+  "homepage": "https://salesteam.dev",
+  "author": {
+    "name": "Salesteam",
+    "email": "support@salesteam.dev",
+    "url": "https://salesteam.dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salesteamdev/n8n-nodes-salesteam.git"
+  },
+  "scripts": {
+    "build": "n8n-node build",
+    "build:watch": "tsc --watch",
+    "dev": "n8n-node dev",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
+    "release": "n8n-node release",
+    "test": "node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test test/*.test.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": [
+      "dist/credentials/SalesteamApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Salesteam/Salesteam.node.js",
+      "dist/nodes/SalesteamTrigger/SalesteamTrigger.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@n8n/node-cli": "^0.55.4",
+    "@types/node": "^22.10.0",
+    "eslint": "9.39.4",
+    "ignore": "^7.0.5",
+    "prettier": "3.8.3",
+    "release-it": "20.2.0",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}

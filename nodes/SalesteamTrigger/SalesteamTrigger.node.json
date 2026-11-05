@@ -1,0 +1,18 @@
+{
+	"node": "n8n-nodes-salesteam.salesteamTrigger",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Sales"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://www.npmjs.com/package/n8n-nodes-salesteam#credentials"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://www.npmjs.com/package/n8n-nodes-salesteam#salesteam-trigger"
+			}
+		]
+	}
+}
